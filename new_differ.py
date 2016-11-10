@@ -2,7 +2,6 @@
 
 import os.path
 
-import time
 import smtplib
 from email.mime.text import MIMEText
 
@@ -11,7 +10,7 @@ import urllib2
 
 from StringIO import StringIO
 
-BASE_FILENAME = '/home/pi/calendars/datas/'
+BASE_FILENAME = '/home/sebastien/prez_python/differ/'
 
 msg = ('Bonjour {first},\n'
        '\n'
@@ -29,11 +28,11 @@ def getPDFContent(o):
     # Iterate pages
     for i in range(0, pdf.getNumPages()):
         # Extract text from page and add to content
-        page_content = pdf.getPage(i).extractText().encode('utf-8').strip()[:-35]
+        page_content = pdf.getPage(i).extractText().encode('utf-8').strip()[142:-35]
         #print (page_content)
         content += page_content + "\n"
     # Collapse whitespace
-    content = " ".join(content.replace("\xa0", " ").strip().split())
+    #content = " ".join(content.replace("\xa0", " ").strip().split())
     return content
 
 def get_user_calendar(login):
@@ -68,7 +67,6 @@ class User:
         print ('... done')
 
     def check_if_updated(self):
-        print ('getting file')
         up_to_date_doc = self.getter(self.login)
         if up_to_date_doc != self.doc:
             print ('found a difference, sending mail')
